@@ -6,10 +6,10 @@
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%; */
   background: #000000;
-  color: #FFFFFF;
+  color: #ffffff;
 
   /* Page designed for viewports 1280px and smaller */
-  max-width: 1280px;
+  /* max-width: 1280px; */
   min-width: 322px;
   margin: 0 auto 0;
   padding: 45px 0 60px;

@@ -1,6 +1,8 @@
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
+import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup';
 
 function App() {
   return (
@@ -8,8 +10,31 @@ function App() {
       <Header />
       <Main />
       <Footer />
-
-      <div className="popup popup_role_edit">
+      <PopupWithForm name="edit" title="Edit Profile" buttonLabel="Save">
+        <div className="popup__input-container">
+          <input type="text" id="name" name="name" placeholder="Name" className="popup__input popup__input_role_name" required minLength="2" maxLength="40" />
+          <span className="popup__input-error popup__input-error_name"></span>
+          <input type="text" id="title" name="about" placeholder="Title" className="popup__input popup__input_role_title" required minLength="2" maxLength="200" />
+          <span className="popup__input-error popup__input-error_title"></span>
+        </div>
+      </PopupWithForm>
+      <PopupWithForm name="add" title="New Place" buttonLabel="Create">
+        <div className="popup__input-container">
+          <input type="text" id="place" name="name" placeholder="Title" className="popup__input popup__input_role_image-title" required minLength="1" maxLength="30" />
+          <span className="popup__input-error popup__input-error_place"></span>
+          <input type="url" id="url" name="link" placeholder="Image link" className="popup__input popup__input_role_image-link" required />
+          <span className="popup__input-error popup__input-error_url"></span>
+        </div>
+      </PopupWithForm>
+      <PopupWithForm name="avatar" title="Change Profile Picture" buttonLabel="Save">
+        <div className="popup__input-container popup__input-container_role_avatar">
+          <input type="url" id="avatar-url" name="avatar" placeholder="Image link" className="popup__input popup__input_role_image-link" required />
+          <span className="popup__input-error popup__input-error_avatar-url"></span>
+        </div>
+      </PopupWithForm>
+      <PopupWithForm name="delete" title="Are You Sure?" buttonLabel="Yes" />
+      <ImagePopup />
+      {/* <div className="popup popup_role_edit">
         <div className="popup__container">
           <form action="#" name="profile" className="popup__form popup__form_role_edit" noValidate>
             <h2 className="popup__header">Edit Profile</h2>
@@ -68,8 +93,8 @@ function App() {
           </form>
           <button type="button" className="popup__close popup__close_role_delete" aria-label="Close"></button>
         </div>
-      </div>
-      <div className="popup popup_role_image">
+      </div> */}
+      {/* <div className="popup popup_role_image">
         <div className="popup__container popup__container_role_image">
           <figure className="popup__figure">
             <img src="#" alt="#" className="popup__image" />
@@ -77,7 +102,7 @@ function App() {
           </figure>
           <button type="button" className="popup__close popup__close_role_image" aria-label="Close"></button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
