@@ -1,3 +1,4 @@
+import React from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -5,12 +6,38 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 
 function App() {
+  const [isEditAvatarPopupOpen, updateAvatarPopupState] = React.useState(false);
+  const [isEditProfilePopupOpen, updateEditProfilePopupState] = React.useState(false);
+  const [isAddPlacePopupOpen, updateAddPlacePopupState] = React.useState(false);
+
+  function handleAvatarClick() {
+    updateAvatarPopupState(true);
+  }
+
+  function handleEditProfileClick() {
+    updateEditProfilePopupState(true);
+  }
+
+  function handleAddPlaceClick() {
+    updateAddPlacePopupState(true);
+  }
+
+  function handleCardClick() {
+    console.log('Card clicked');
+  }
+
+  function closeAllPopups() {
+    updateAvatarPopupState(false);
+    updateEditProfilePopupState(false);
+    updateAddPlacePopupState(false);
+  }
+
   return (
     <div className="page">
       <Header />
-      <Main />
+      <Main onEditAvatarClick={handleAvatarClick} onEditProfileClick={handleEditProfileClick} onAddPlaceClick={handleAddPlaceClick} onCardClick={handleCardClick} />
       <Footer />
-      <PopupWithForm name="edit" title="Edit Profile" buttonLabel="Save">
+      <PopupWithForm name="edit" title="Edit Profile" buttonLabel="Save" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
         <div className="popup__input-container">
           <input type="text" id="name" name="name" placeholder="Name" className="popup__input popup__input_role_name" required minLength="2" maxLength="40" />
           <span className="popup__input-error popup__input-error_name"></span>
@@ -18,7 +45,7 @@ function App() {
           <span className="popup__input-error popup__input-error_title"></span>
         </div>
       </PopupWithForm>
-      <PopupWithForm name="add" title="New Place" buttonLabel="Create">
+      <PopupWithForm name="add" title="New Place" buttonLabel="Create" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
         <div className="popup__input-container">
           <input type="text" id="place" name="name" placeholder="Title" className="popup__input popup__input_role_image-title" required minLength="1" maxLength="30" />
           <span className="popup__input-error popup__input-error_place"></span>
@@ -26,13 +53,13 @@ function App() {
           <span className="popup__input-error popup__input-error_url"></span>
         </div>
       </PopupWithForm>
-      <PopupWithForm name="avatar" title="Change Profile Picture" buttonLabel="Save">
+      <PopupWithForm name="avatar" title="Change Profile Picture" buttonLabel="Save" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
         <div className="popup__input-container popup__input-container_role_avatar">
           <input type="url" id="avatar-url" name="avatar" placeholder="Image link" className="popup__input popup__input_role_image-link" required />
           <span className="popup__input-error popup__input-error_avatar-url"></span>
         </div>
       </PopupWithForm>
-      <PopupWithForm name="delete" title="Are You Sure?" buttonLabel="Yes" />
+      <PopupWithForm name="delete" title="Are You Sure?" buttonLabel="Yes" onClose={closeAllPopups} />
       <ImagePopup />
       {/* <div className="popup popup_role_edit">
         <div className="popup__container">
