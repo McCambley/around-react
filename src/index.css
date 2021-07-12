@@ -1,13 +1,44 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* vendor stylesheets */
+@import url(./vendor/normalize.css);
+
+/* font stylesheets */
+@import url(./fonts/fonts.css);
+
+/* primary stylesheets */
+@import url(./blocks/page/page.css);
+@import url(./blocks/element/element.css);
+@import url(./blocks/elements/elements.css);
+@import url(./blocks/footer/footer.css);
+@import url(./blocks/header/header.css);
+@import url(./blocks/logo/logo.css);
+@import url(./blocks/profile/profile.css);
+@import url(./blocks/content/content.css);
+@import url(./blocks/popup/popup.css);
+@import url(./blocks/popup/popup.css);
+@import url(./blocks/shimmer/shimmer.css);
+@import url(./blocks/hide/hide.css);
+
+/* modifiers */
+@import url(./blocks/popup/_opened/popup_opened.css);
+@import url(./blocks/element/_loading/element_loading.css);
+
+/* * {
+  border: 1px solid gray;
+} */
+
+/* common breakpoints
+@media (max-width: 1280px) {
+
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@media (max-width: 1024px) {
+
 }
+
+@media (max-width: 768px) {
+
+}
+
+@media (max-width: 480px) {
+
+} */
