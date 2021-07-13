@@ -5,7 +5,7 @@ export default function Main(props) {
   const [userName, updateUserName] = React.useState();
   const [userDescription, updateUserDescription] = React.useState();
   const [userAvatar, updateUserAvatar] = React.useState();
-  const [isLoading, updateLoading] = React.useState();
+  const [isLoading, updateLoading] = React.useState(true);
 
   React.useEffect(() => {
     api.getUserInfo().then(data => {
