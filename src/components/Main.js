@@ -1,11 +1,13 @@
 import React from 'react';
 import api from '../utils/api';
+import Card from './Card';
 
 export default function Main(props) {
   const [userName, updateUserName] = React.useState();
   const [userDescription, updateUserDescription] = React.useState();
   const [userAvatar, updateUserAvatar] = React.useState();
   const [isLoading, updateLoading] = React.useState(true);
+  const [cards, updateCards] = React.useState([]);
 
   React.useEffect(() => {
     api.getUserInfo().then(data => {
@@ -13,8 +15,18 @@ export default function Main(props) {
       updateUserDescription(data.about);
       updateUserAvatar(data.avatar);
       updateLoading(false);
+      console.log(userName, userDescription, userAvatar, isLoading);
     });
-  });
+    // eslint-disable-next-line
+  }, []);
+
+  React.useEffect(() => {
+    api.getGroupCards().then(data => {
+      updateCards(data);
+      console.log(data[0]);
+    });
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <main className="content">
@@ -36,48 +48,9 @@ export default function Main(props) {
       </section>
 
       <section className="elements">
-        <article className="element element_loading">
-          <img className="element__image shimmer" alt="" />
-          <div className="element__name-box shimmer">
-            <div className="element__name"></div>
-            <div className="element__like-container"></div>
-          </div>
-        </article>
-        <article className="element element_loading">
-          <img className="element__image shimmer" alt="" />
-          <div className="element__name-box shimmer">
-            <div className="element__name"></div>
-            <div className="element__like-container"></div>
-          </div>
-        </article>
-        <article className="element element_loading">
-          <img className="element__image shimmer" alt="" />
-          <div className="element__name-box shimmer">
-            <div className="element__name"></div>
-            <div className="element__like-container"></div>
-          </div>
-        </article>
-        <article className="element element_loading">
-          <img className="element__image shimmer" alt="" />
-          <div className="element__name-box shimmer">
-            <div className="element__name"></div>
-            <div className="element__like-container"></div>
-          </div>
-        </article>
-        <article className="element element_loading">
-          <img className="element__image shimmer" alt="" />
-          <div className="element__name-box shimmer">
-            <div className="element__name"></div>
-            <div className="element__like-container"></div>
-          </div>
-        </article>
-        <article className="element element_loading">
-          <img className="element__image shimmer" alt="" />
-          <div className="element__name-box shimmer">
-            <div className="element__name"></div>
-            <div className="element__like-container"></div>
-          </div>
-        </article>
+        {cards.map((card, index) => (
+          <Card key={index} cardData={card} />
+        ))}
       </section>
     </main>
   );

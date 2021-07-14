@@ -5,6 +5,14 @@ class Api {
     this._auth = authorization;
   }
 
+  //   getGroupPeople() {
+  //     return fetch(this._baseUrl + '/users/', {
+  //       headers: {
+  //         authorization: this._auth,
+  //       },
+  //     }).then(res => this._checkResponse(res));
+  //   }
+
   _checkResponse(res) {
     if (!res.ok) {
       return Promise.reject(`${res.status} error!`);
