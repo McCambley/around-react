@@ -15,7 +15,6 @@ export default function Main(props) {
       updateUserDescription(data.about);
       updateUserAvatar(data.avatar);
       updateLoading(false);
-      console.log(userName, userDescription, userAvatar, isLoading);
     });
     // eslint-disable-next-line
   }, []);
@@ -23,7 +22,6 @@ export default function Main(props) {
   React.useEffect(() => {
     api.getGroupCards().then(data => {
       updateCards(data);
-      console.log(data[0]);
     });
     // eslint-disable-next-line
   }, []);
