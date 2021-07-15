@@ -46,10 +46,9 @@ export default function Main(props) {
         </div>
         <button onClick={props.onAddPlaceClick} type="button" name="Add image" className="profile__add-button hide" aria-label="Add image"></button>
       </section>
-
       <section className="elements">
         {cards.map((card, index) => (
-          <Card key={index} cardData={card} />
+          <Card key={index} cardData={card} onCardClick={props.onCardClick} />
         ))}
       </section>
     </main>
