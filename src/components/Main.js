@@ -37,12 +37,12 @@ export default function Main(props) {
           <div className="profile__text">
             <div className="profile__text-top">
               <h1 className={`profile__name ${isLoading ? 'shimmer' : ''}`}>{userName}</h1>
-              <button onClick={props.onEditProfileClick} type="button" name="Edit profile" className="profile__edit-button hide" aria-label="Edit profile"></button>
+              <button onClick={props.onEditProfileClick} type="button" name="Edit profile" className={`profile__edit-button ${isLoading ? 'hide' : ''}`} aria-label="Edit profile"></button>
             </div>
             <p className={`profile__title ${isLoading ? 'shimmer' : ''}`}>{userDescription}</p>
           </div>
         </div>
-        <button onClick={props.onAddPlaceClick} type="button" name="Add image" className="profile__add-button hide" aria-label="Add image"></button>
+        <button onClick={props.onAddPlaceClick} type="button" name="Add image" className={`profile__add-button ${isLoading ? 'hide' : ''}`} aria-label="Add image"></button>
       </section>
       <section className="elements">
         {cards.map((card, index) => (
