@@ -3,27 +3,25 @@ import api from '../utils/api';
 import Card from './Card';
 
 export default function Main(props) {
-  const [userName, updateUserName] = React.useState();
-  const [userDescription, updateUserDescription] = React.useState();
-  const [userAvatar, updateUserAvatar] = React.useState();
+  const [userName, updateUserName] = React.useState('');
+  const [userDescription, updateUserDescription] = React.useState('');
+  const [userAvatar, updateUserAvatar] = React.useState('');
   const [isLoading, updateLoading] = React.useState(true);
   const [cards, updateCards] = React.useState([]);
 
   React.useEffect(() => {
-    api.getUserInfo().then(data => {
-      updateUserName(data.name);
-      updateUserDescription(data.about);
-      updateUserAvatar(data.avatar);
+    api.getUserInfo().then(({ name, about, avatar }) => {
+      updateUserName(name);
+      updateUserDescription(about);
+      updateUserAvatar(avatar);
       updateLoading(false);
     });
-    // eslint-disable-next-line
   }, []);
 
   React.useEffect(() => {
     api.getGroupCards().then(data => {
       updateCards(data);
     });
-    // eslint-disable-next-line
   }, []);
 
   return (
