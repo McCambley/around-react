@@ -8,7 +8,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   const currentUser = React.useContext(CurrentUserContext);
 
   function handleChange(evt, stateUpdater) {
-    stateUpdater(evt.target.value || 'kj');
+    stateUpdater(evt.target.value);
   }
 
   function handleSubmit(e) {
