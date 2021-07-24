@@ -3,6 +3,7 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
+import EditProfilePopup from './EditProfilePopup';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import api from '../utils/api';
@@ -38,6 +39,13 @@ function App() {
     updateSelectedCard(cardData);
   }
 
+  function handleUpdateUser(userData) {
+    api.updateProfile(userData).then(res => {
+      updateCurrentUser(res);
+      closeAllPopups();
+    });
+  }
+
   function closeAllPopups() {
     updateAvatarPopupState(false);
     updateEditProfilePopupState(false);
@@ -57,37 +65,7 @@ function App() {
           isLoading={isLoading}
         />
         <Footer />
-        <PopupWithForm
-          name="edit"
-          title="Edit Profile"
-          buttonLabel="Save"
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}>
-          <div className="popup__input-container">
-            <input
-              type="text"
-              id="name"
-              name="name"
-              placeholder="Name"
-              className="popup__input popup__input_role_name"
-              required
-              minLength="2"
-              maxLength="40"
-            />
-            <span className="popup__input-error popup__input-error_name" />
-            <input
-              type="text"
-              id="title"
-              name="about"
-              placeholder="Title"
-              className="popup__input popup__input_role_title"
-              required
-              minLength="2"
-              maxLength="200"
-            />
-            <span className="popup__input-error popup__input-error_title" />
-          </div>
-        </PopupWithForm>
+        <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
         <PopupWithForm
           name="add"
           title="New Place"
