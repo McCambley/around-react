@@ -16,6 +16,22 @@ export default function Main(props) {
     });
   }, []);
 
+  function handleCardLike(card) {
+    // determine if card is liked by current user
+    const isLiked = card.likes.some(like => like._id === currentUser._id);
+
+    // send new like to the server and update state
+    api.changeLikeCardStatus(card._id, isLiked).then(likedCard => {
+      updateCards(cards.map(cardItem => (cardItem._id === card._id ? likedCard : cardItem)));
+    });
+  }
+
+  function handleDeleteCard(card) {
+    api.deleteCard(card._id).then(response => {
+      updateCards(cards.filter(stateCard => stateCard !== card));
+    });
+  }
+
   return (
     <main className="content">
       <section className="profile">
@@ -51,7 +67,13 @@ export default function Main(props) {
       </section>
       <section className="elements">
         {cards.map((card, index) => (
-          <Card key={index} cardData={card} onCardClick={props.onCardClick} />
+          <Card
+            onCardLike={handleCardLike}
+            onCardDelete={handleDeleteCard}
+            key={index}
+            cardData={card}
+            onCardClick={props.onCardClick}
+          />
         ))}
       </section>
     </main>
