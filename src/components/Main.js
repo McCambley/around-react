@@ -37,12 +37,7 @@ export default function Main(props) {
       <section className="profile">
         <div className="profile__info-box">
           <div className="profile__avatar-wrapper">
-            <img
-              id="avatar"
-              src={currentUser.avatar}
-              alt=""
-              className={`profile__avatar ${props.isLoading ? 'shimmer' : ''}`}
-            />
+            <img id="avatar" src={currentUser.avatar} alt="" className={`profile__avatar ${props.isLoading ? 'shimmer' : ''}`} />
             <div onClick={props.onEditAvatarClick} className="profile__avatar-overlay"></div>
           </div>
           <div className="profile__text">
@@ -58,22 +53,11 @@ export default function Main(props) {
             <p className={`profile__title ${props.isLoading ? 'shimmer' : ''}`}>{currentUser.about}</p>
           </div>
         </div>
-        <button
-          onClick={props.onAddPlaceClick}
-          type="button"
-          name="Add image"
-          className={`profile__add-button ${props.isLoading ? 'hide' : ''}`}
-          aria-label="Add image"></button>
+        <button onClick={props.onAddPlaceClick} type="button" name="Add image" className={`profile__add-button ${props.isLoading ? 'hide' : ''}`} aria-label="Add image"></button>
       </section>
       <section className="elements">
         {cards.map((card, index) => (
-          <Card
-            onCardLike={handleCardLike}
-            onCardDelete={handleDeleteCard}
-            key={index}
-            cardData={card}
-            onCardClick={props.onCardClick}
-          />
+          <Card onCardLike={handleCardLike} onCardDelete={handleDeleteCard} key={index} cardData={card} onCardClick={props.onCardClick} />
         ))}
       </section>
     </main>

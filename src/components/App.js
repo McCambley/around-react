@@ -4,6 +4,7 @@ import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import api from '../utils/api';
@@ -66,53 +67,15 @@ function App() {
         />
         <Footer />
         <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
-        <PopupWithForm
-          name="add"
-          title="New Place"
-          buttonLabel="Create"
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}>
+        <PopupWithForm name="add" title="New Place" buttonLabel="Create" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
           <div className="popup__input-container">
-            <input
-              type="text"
-              id="place"
-              name="name"
-              placeholder="Title"
-              className="popup__input popup__input_role_image-title"
-              required
-              minLength="1"
-              maxLength="30"
-            />
+            <input type="text" id="place" name="name" placeholder="Title" className="popup__input popup__input_role_image-title" required minLength="1" maxLength="30" />
             <span className="popup__input-error popup__input-error_place" />
-            <input
-              type="url"
-              id="url"
-              name="link"
-              placeholder="Image link"
-              className="popup__input popup__input_role_image-link"
-              required
-            />
+            <input type="url" id="url" name="link" placeholder="Image link" className="popup__input popup__input_role_image-link" required />
             <span className="popup__input-error popup__input-error_url" />
           </div>
         </PopupWithForm>
-        <PopupWithForm
-          name="avatar"
-          title="Change Profile Picture"
-          buttonLabel="Save"
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}>
-          <div className="popup__input-container popup__input-container_role_avatar">
-            <input
-              type="url"
-              id="avatar-url"
-              name="avatar"
-              placeholder="Image link"
-              className="popup__input popup__input_role_image-link"
-              required
-            />
-            <span className="popup__input-error popup__input-error_avatar-url" />
-          </div>
-        </PopupWithForm>
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
         <PopupWithForm name="delete" title="Are You Sure?" buttonLabel="Yes" onClose={closeAllPopups} />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </div>

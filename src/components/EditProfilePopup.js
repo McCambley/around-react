@@ -26,13 +26,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
 
   return (
     <>
-      <PopupWithForm
-        onSubmit={handleSubmit}
-        name="edit"
-        title="Edit Profile"
-        buttonLabel="Save"
-        isOpen={isOpen}
-        onClose={onClose}>
+      <PopupWithForm onSubmit={handleSubmit} name="edit" title="Edit Profile" buttonLabel="Save" isOpen={isOpen} onClose={onClose}>
         <div className="popup__input-container">
           <input
             type="text"
