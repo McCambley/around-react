@@ -47,6 +47,13 @@ function App() {
     });
   }
 
+  function handleUpdateAvatar(userData) {
+    api.updateAvatar(userData).then(res => {
+      updateCurrentUser(res);
+      closeAllPopups();
+    });
+  }
+
   function closeAllPopups() {
     updateAvatarPopupState(false);
     updateEditProfilePopupState(false);
@@ -69,13 +76,22 @@ function App() {
         <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
         <PopupWithForm name="add" title="New Place" buttonLabel="Create" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
           <div className="popup__input-container">
-            <input type="text" id="place" name="name" placeholder="Title" className="popup__input popup__input_role_image-title" required minLength="1" maxLength="30" />
+            <input
+              type="text"
+              id="place"
+              name="name"
+              placeholder="Title"
+              className="popup__input popup__input_role_image-title"
+              required
+              minLength="1"
+              maxLength="30"
+            />
             <span className="popup__input-error popup__input-error_place" />
             <input type="url" id="url" name="link" placeholder="Image link" className="popup__input popup__input_role_image-link" required />
             <span className="popup__input-error popup__input-error_url" />
           </div>
         </PopupWithForm>
-        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
+        <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
         <PopupWithForm name="delete" title="Are You Sure?" buttonLabel="Yes" onClose={closeAllPopups} />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </div>
