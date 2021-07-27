@@ -11,6 +11,10 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
     });
   }
 
+  React.useEffect(() => {
+    inputRef.current.value = '';
+  }, [isOpen]);
+
   return (
     <>
       <PopupWithForm onSubmit={handleSubmit} name="avatar" title="Change Profile Picture" buttonLabel="Save" isOpen={isOpen} onClose={onClose}>

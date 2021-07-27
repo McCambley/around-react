@@ -20,16 +20,22 @@ function App() {
   const [cards, updateCards] = React.useState([]);
 
   React.useEffect(() => {
-    api.getGroupCards().then(data => {
-      updateCards(data);
-    });
+    api
+      .getGroupCards()
+      .then(data => {
+        updateCards(data);
+      })
+      .catch(err => console.error(`Problem fetching cards cards: ${err}`));
   }, []);
 
   React.useEffect(() => {
-    api.getUserInfo().then(res => {
-      updateCurrentUser(res);
-      updateLoading(false);
-    });
+    api
+      .getUserInfo()
+      .then(res => {
+        updateCurrentUser(res);
+        updateLoading(false);
+      })
+      .catch(err => console.error(`Problem fetching user information: ${err}`));
   }, []);
 
   function handleAvatarClick() {
@@ -49,38 +55,53 @@ function App() {
   }
 
   function handleUpdateUser(userData) {
-    api.updateProfile(userData).then(res => {
-      updateCurrentUser(res);
-      closeAllPopups();
-    });
+    api
+      .updateProfile(userData)
+      .then(res => {
+        updateCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch(err => console.error(`Problem updating profile: ${err}`));
   }
 
   function handleUpdateAvatar(userData) {
-    api.updateAvatar(userData).then(res => {
-      updateCurrentUser(res);
-      closeAllPopups();
-    });
+    api
+      .updateAvatar(userData)
+      .then(res => {
+        updateCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch(err => console.error(`Problem updating avatar: ${err}`));
   }
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(like => like._id === currentUser._id);
 
-    api.changeLikeCardStatus(card._id, isLiked).then(likedCard => {
-      updateCards(cards.map(cardItem => (cardItem._id === card._id ? likedCard : cardItem)));
-    });
+    api
+      .changeLikeCardStatus(card._id, isLiked)
+      .then(likedCard => {
+        updateCards(cards.map(cardItem => (cardItem._id === card._id ? likedCard : cardItem)));
+      })
+      .catch(err => console.error(`Problem updating 'like' status: ${err}`));
   }
 
   function handleDeleteCard(card) {
-    api.deleteCard(card._id).then(response => {
-      updateCards(cards.filter(stateCard => stateCard !== card));
-    });
+    api
+      .deleteCard(card._id)
+      .then(response => {
+        updateCards(cards.filter(stateCard => stateCard !== card));
+      })
+      .catch(err => console.error(`Problem deleting card: ${err}`));
   }
 
   function handleAddPlaceSubmit(card) {
-    api.addCard(card).then(newCard => {
-      updateCards([newCard, ...cards]);
-      closeAllPopups();
-    });
+    api
+      .addCard(card)
+      .then(newCard => {
+        updateCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch(err => console.error(`Problem adding new place: ${err}`));
   }
 
   function closeAllPopups() {

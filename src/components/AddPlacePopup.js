@@ -25,6 +25,11 @@ export default function AddPlacePopup(props) {
     });
   }
 
+  React.useEffect(() => {
+    updateName('');
+    updateLink('');
+  }, [props.isOpen]);
+
   return (
     <>
       <PopupWithForm name="add" title="New Place" buttonLabel="Create" isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}>

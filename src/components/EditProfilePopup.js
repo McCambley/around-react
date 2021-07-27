@@ -22,7 +22,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   React.useEffect(() => {
     updateName(currentUser.name || '');
     updateDescription(currentUser.about || '');
-  }, [currentUser]);
+  }, [currentUser, isOpen]);
 
   return (
     <>
