@@ -14,18 +14,13 @@ export default function Card({ cardData, onCardClick, onCardLike, onCardDelete }
     onCardLike(cardData);
   }
 
-  function handleDelete() {
+  function handleDeleteClick() {
     onCardDelete(cardData);
   }
 
   return (
     <article className="element">
-      <img
-        className="element__image"
-        src={cardData.link}
-        alt={`${cardData.name} taken by ${cardData.owner.name}`}
-        onClick={handleClick}
-      />
+      <img className="element__image" src={cardData.link} alt={`${cardData.name} taken by ${cardData.owner.name}`} onClick={handleClick} />
       <div className="element__name-box">
         <h2 className="element__name">{cardData.name}</h2>
         <div className="element__like-container">
@@ -41,7 +36,7 @@ export default function Card({ cardData, onCardClick, onCardLike, onCardDelete }
       <button
         type="button"
         name="Delete image"
-        onClick={handleDelete}
+        onClick={handleDeleteClick}
         className={`element__delete ${isOwn ? 'element__delete_visible' : 'element__delete_hidden'}`}
         aria-label="Delete photo"></button>
     </article>

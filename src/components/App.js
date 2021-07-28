@@ -2,11 +2,11 @@ import React from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';
+import DeletePlacePopup from './DeletePlacePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import api from '../utils/api';
 
@@ -14,7 +14,10 @@ function App() {
   const [isEditAvatarPopupOpen, updateAvatarPopupState] = React.useState(false);
   const [isEditProfilePopupOpen, updateEditProfilePopupState] = React.useState(false);
   const [isAddPlacePopupOpen, updateAddPlacePopupState] = React.useState(false);
+  const [isDeletePlacePopupOpen, updateDeletePlacePopupState] = React.useState(false);
+  // const [isSubmitting, updateSubmitStatus] = React.useState(false);
   const [selectedCard, updateSelectedCard] = React.useState(null);
+  const [cardQueuedForDeletion, updateCardQueuedForDeletion] = React.useState(null);
   const [isLoading, updateLoading] = React.useState(true);
   const [currentUser, updateCurrentUser] = React.useState({});
   const [cards, updateCards] = React.useState([]);
@@ -54,6 +57,11 @@ function App() {
     updateSelectedCard(cardData);
   }
 
+  function handleDeletePlaceClick(cardData) {
+    updateDeletePlacePopupState(true);
+    updateCardQueuedForDeletion(cardData);
+  }
+
   function handleUpdateUser(userData) {
     api
       .updateProfile(userData)
@@ -85,11 +93,12 @@ function App() {
       .catch(err => console.error(`Problem updating 'like' status: ${err}`));
   }
 
-  function handleDeleteCard(card) {
+  function handleDeletePlaceSubmit(card) {
     api
       .deleteCard(card._id)
       .then(response => {
         updateCards(cards.filter(stateCard => stateCard !== card));
+        closeAllPopups();
       })
       .catch(err => console.error(`Problem deleting card: ${err}`));
   }
@@ -108,6 +117,7 @@ function App() {
     updateAvatarPopupState(false);
     updateEditProfilePopupState(false);
     updateAddPlacePopupState(false);
+    updateDeletePlacePopupState(false);
     updateSelectedCard(null);
   }
 
@@ -122,14 +132,19 @@ function App() {
           onCardClick={handleCardClick}
           isLoading={isLoading}
           onCardLike={handleCardLike}
-          onCardDelete={handleDeleteCard}
+          onDeletePlaceClick={handleDeletePlaceClick}
           cards={cards}
         />
         <Footer />
         <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
         <AddPlacePopup onAddPlace={handleAddPlaceSubmit} isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
         <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
-        <PopupWithForm name="delete" title="Are You Sure?" buttonLabel="Yes" onClose={closeAllPopups} />
+        <DeletePlacePopup
+          card={cardQueuedForDeletion}
+          onDeletePlace={handleDeletePlaceSubmit}
+          isOpen={isDeletePlacePopupOpen}
+          onClose={closeAllPopups}
+        />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </div>
     </CurrentUserContext.Provider>
