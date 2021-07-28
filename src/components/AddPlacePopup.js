@@ -5,14 +5,6 @@ export default function AddPlacePopup(props) {
   const [name, updateName] = React.useState('');
   const [link, updateLink] = React.useState('');
 
-  //   function handleNameChange(e) {
-  //     updateName(e.target.value);
-  //   }
-
-  //   function handleLinkChange(e) {
-  //     updateLink(e.target.value);
-  //   }
-
   function handleChange(e, stateUpdater) {
     stateUpdater(e.target.value);
   }
@@ -32,7 +24,13 @@ export default function AddPlacePopup(props) {
 
   return (
     <>
-      <PopupWithForm name="add" title="New Place" buttonLabel="Create" isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}>
+      <PopupWithForm
+        name="add"
+        title="New Place"
+        buttonLabel={props.isSubmitting ? 'Saving...' : 'Save'}
+        isOpen={props.isOpen}
+        onClose={props.onClose}
+        onSubmit={handleSubmit}>
         <div className="popup__input-container">
           <input
             type="text"

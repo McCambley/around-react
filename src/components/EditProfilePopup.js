@@ -2,7 +2,7 @@ import PopupWithForm from './PopupWithForm';
 import React from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
+export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSubmitting }) {
   const [name, updateName] = React.useState('');
   const [description, updateDescription] = React.useState('');
   const currentUser = React.useContext(CurrentUserContext);
@@ -26,7 +26,13 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
 
   return (
     <>
-      <PopupWithForm onSubmit={handleSubmit} name="edit" title="Edit Profile" buttonLabel="Save" isOpen={isOpen} onClose={onClose}>
+      <PopupWithForm
+        onSubmit={handleSubmit}
+        name="edit"
+        title="Edit Profile"
+        buttonLabel={isSubmitting ? 'Saving...' : 'Save'}
+        isOpen={isOpen}
+        onClose={onClose}>
         <div className="popup__input-container">
           <input
             type="text"

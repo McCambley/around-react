@@ -1,7 +1,7 @@
 import PopupWithForm from './PopupWithForm';
 import React from 'react';
 
-export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
+export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isSubmitting }) {
   const inputRef = React.useRef();
 
   function handleSubmit(e) {
@@ -17,7 +17,13 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
 
   return (
     <>
-      <PopupWithForm onSubmit={handleSubmit} name="avatar" title="Change Profile Picture" buttonLabel="Save" isOpen={isOpen} onClose={onClose}>
+      <PopupWithForm
+        onSubmit={handleSubmit}
+        name="avatar"
+        title="Change Profile Picture"
+        buttonLabel={isSubmitting ? 'Saving...' : 'Save'}
+        isOpen={isOpen}
+        onClose={onClose}>
         <div className="popup__input-container popup__input-container_role_avatar">
           <input
             ref={inputRef}

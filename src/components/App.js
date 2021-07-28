@@ -15,7 +15,7 @@ function App() {
   const [isEditProfilePopupOpen, updateEditProfilePopupState] = React.useState(false);
   const [isAddPlacePopupOpen, updateAddPlacePopupState] = React.useState(false);
   const [isDeletePlacePopupOpen, updateDeletePlacePopupState] = React.useState(false);
-  // const [isSubmitting, updateSubmitStatus] = React.useState(false);
+  const [isSubmitPending, updateSubmitPendingStatus] = React.useState(false);
   const [selectedCard, updateSelectedCard] = React.useState(null);
   const [cardQueuedForDeletion, updateCardQueuedForDeletion] = React.useState(null);
   const [isLoading, updateLoading] = React.useState(true);
@@ -63,28 +63,31 @@ function App() {
   }
 
   function handleUpdateUser(userData) {
+    updateSubmitPendingStatus(true);
     api
       .updateProfile(userData)
       .then(res => {
         updateCurrentUser(res);
         closeAllPopups();
+        updateSubmitPendingStatus(false);
       })
       .catch(err => console.error(`Problem updating profile: ${err}`));
   }
 
   function handleUpdateAvatar(userData) {
+    updateSubmitPendingStatus(true);
     api
       .updateAvatar(userData)
       .then(res => {
         updateCurrentUser(res);
         closeAllPopups();
+        updateSubmitPendingStatus(false);
       })
       .catch(err => console.error(`Problem updating avatar: ${err}`));
   }
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(like => like._id === currentUser._id);
-
     api
       .changeLikeCardStatus(card._id, isLiked)
       .then(likedCard => {
@@ -94,21 +97,25 @@ function App() {
   }
 
   function handleDeletePlaceSubmit(card) {
+    updateSubmitPendingStatus(true);
     api
       .deleteCard(card._id)
       .then(response => {
         updateCards(cards.filter(stateCard => stateCard !== card));
         closeAllPopups();
+        updateSubmitPendingStatus(false);
       })
       .catch(err => console.error(`Problem deleting card: ${err}`));
   }
 
   function handleAddPlaceSubmit(card) {
+    updateSubmitPendingStatus(true);
     api
       .addCard(card)
       .then(newCard => {
         updateCards([newCard, ...cards]);
         closeAllPopups();
+        updateSubmitPendingStatus(false);
       })
       .catch(err => console.error(`Problem adding new place: ${err}`));
   }
@@ -136,10 +143,11 @@ function App() {
           cards={cards}
         />
         <Footer />
-        <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
-        <AddPlacePopup onAddPlace={handleAddPlaceSubmit} isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
-        <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
+        <EditProfilePopup isSubmitting={isSubmitPending} onUpdateUser={handleUpdateUser} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
+        <AddPlacePopup isSubmitting={isSubmitPending} onAddPlace={handleAddPlaceSubmit} isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
+        <EditAvatarPopup isSubmitting={isSubmitPending} onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
         <DeletePlacePopup
+          isSubmitting={isSubmitPending}
           card={cardQueuedForDeletion}
           onDeletePlace={handleDeletePlaceSubmit}
           isOpen={isDeletePlacePopupOpen}
