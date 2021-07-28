@@ -6,11 +6,11 @@ export default function DeletePlacePopup({ isOpen, onClose, onDeletePlace, card,
     e.preventDefault();
     onDeletePlace(card);
   }
+
   return (
     <>
       <PopupWithForm
         onSubmit={handleSubmit}
-        // isValid={false}
         name="delete"
         title="Are You Sure?"
         buttonLabel={isSubmitting ? 'Deleting...' : 'Yes'}

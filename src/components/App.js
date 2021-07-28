@@ -120,6 +120,16 @@ function App() {
       .catch(err => console.error(`Problem adding new place: ${err}`));
   }
 
+  function updateInputValidity(evt, inputValidityUpdater, errorMessageUpdater) {
+    if (!evt.target.validity.valid) {
+      inputValidityUpdater(false);
+      errorMessageUpdater(evt.target.validationMessage);
+    } else {
+      inputValidityUpdater(true);
+      errorMessageUpdater('');
+    }
+  }
+
   function closeAllPopups() {
     updateAvatarPopupState(false);
     updateEditProfilePopupState(false);
@@ -143,9 +153,27 @@ function App() {
           cards={cards}
         />
         <Footer />
-        <EditProfilePopup isSubmitting={isSubmitPending} onUpdateUser={handleUpdateUser} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
-        <AddPlacePopup isSubmitting={isSubmitPending} onAddPlace={handleAddPlaceSubmit} isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
-        <EditAvatarPopup isSubmitting={isSubmitPending} onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
+        <EditProfilePopup
+          isSubmitting={isSubmitPending}
+          onUpdateUser={handleUpdateUser}
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          checkValidity={updateInputValidity}
+        />
+        <AddPlacePopup
+          isSubmitting={isSubmitPending}
+          onAddPlace={handleAddPlaceSubmit}
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          checkValidity={updateInputValidity}
+        />
+        <EditAvatarPopup
+          isSubmitting={isSubmitPending}
+          onUpdateAvatar={handleUpdateAvatar}
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          checkValidity={updateInputValidity}
+        />
         <DeletePlacePopup
           isSubmitting={isSubmitPending}
           card={cardQueuedForDeletion}

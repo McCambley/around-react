@@ -1,9 +1,9 @@
 import PopupWithForm from './PopupWithForm';
 import React from 'react';
 
-export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isSubmitting }) {
+export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isSubmitting, checkValidity }) {
   const inputRef = React.useRef();
-  const [isUrlInputValid, updateUrlInputValidity] = React.useState(false);
+  const [isUrlInputValid, updateUrlInputValidity] = React.useState(true);
   const [errorMessage, updateErrorMessage] = React.useState('');
 
   function handleSubmit(e) {
@@ -15,23 +15,14 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isSub
 
   React.useEffect(() => {
     inputRef.current.value = '';
+    updateUrlInputValidity(true);
   }, [isOpen]);
-
-  function checkInputValidity(e) {
-    if (!e.target.validity.valid) {
-      updateUrlInputValidity(false);
-      updateErrorMessage(e.target.validationMessage);
-    } else {
-      updateUrlInputValidity(true);
-      updateErrorMessage('');
-    }
-  }
 
   return (
     <>
       <PopupWithForm
         onSubmit={handleSubmit}
-        isInvalid={!isUrlInputValid}
+        // isInvalid={!isUrlInputValid}
         name="avatar"
         title="Change Profile Picture"
         buttonLabel={isSubmitting ? 'Saving...' : 'Save'}
@@ -40,8 +31,7 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isSub
         <div className="popup__input-container popup__input-container_role_avatar">
           <input
             ref={inputRef}
-            // onChange={(checkInputValidity, checkFormValidity)}
-            onChange={checkInputValidity}
+            onChange={evt => checkValidity(evt, updateUrlInputValidity, updateErrorMessage)}
             type="url"
             id="avatar-url"
             name="avatar"

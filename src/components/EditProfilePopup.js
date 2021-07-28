@@ -2,18 +2,18 @@ import PopupWithForm from './PopupWithForm';
 import React from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSubmitting }) {
+export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSubmitting, checkValidity }) {
   const [name, updateName] = React.useState('');
-  const [description, updateDescription] = React.useState('');
-  const [isNameInputValid, updateNameInputValidity] = React.useState(false);
-  const [isAboutInputValid, updateAboutInputValidity] = React.useState(false);
+  const [description, updateAbout] = React.useState('');
+  const [isNameInputValid, updateNameInputValidity] = React.useState(true);
+  const [isAboutInputValid, updateAboutInputValidity] = React.useState(true);
   const [nameErrorMessage, updateNameErrorMessage] = React.useState('');
   const [aboutErrorMessage, updateAboutErrorMessage] = React.useState('');
   const currentUser = React.useContext(CurrentUserContext);
 
-  function handleChange(evt, stateUpdater, validityUpdater) {
+  function handleChange(evt, stateUpdater, inputValidityUpdater, errorMessageUpdater) {
     stateUpdater(evt.target.value);
-    validityUpdater(evt);
+    checkValidity(evt, inputValidityUpdater, errorMessageUpdater);
   }
 
   function handleSubmit(e) {
@@ -24,29 +24,11 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSubm
     });
   }
 
-  function checkNameInputValidity(e) {
-    if (!e.target.validity.valid) {
-      updateNameInputValidity(false);
-      updateNameErrorMessage(e.target.validationMessage);
-    } else {
-      updateNameInputValidity(true);
-      updateNameErrorMessage('');
-    }
-  }
-
-  function checkAboutInputValidity(e) {
-    if (!e.target.validity.valid) {
-      updateAboutInputValidity(false);
-      updateAboutErrorMessage(e.target.validationMessage);
-    } else {
-      updateAboutInputValidity(true);
-      updateAboutErrorMessage('');
-    }
-  }
-
   React.useEffect(() => {
     updateName(currentUser.name || '');
-    updateDescription(currentUser.about || '');
+    updateAbout(currentUser.about || '');
+    updateNameInputValidity(true);
+    updateAboutInputValidity(true);
   }, [currentUser, isOpen]);
 
   return (
@@ -57,8 +39,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSubm
         title="Edit Profile"
         buttonLabel={isSubmitting ? 'Saving...' : 'Save'}
         isOpen={isOpen}
-        onClose={onClose}
-        isInvalid={!(isNameInputValid && isAboutInputValid)}>
+        onClose={onClose}>
         <div className="popup__input-container">
           <input
             type="text"
@@ -66,7 +47,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSubm
             name="name"
             placeholder="Name"
             value={name}
-            onChange={evt => handleChange(evt, updateName, checkNameInputValidity)}
+            onChange={evt => handleChange(evt, updateName, updateNameInputValidity, updateNameErrorMessage)}
             className="popup__input popup__input_role_name"
             required
             minLength="2"
@@ -79,7 +60,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSubm
             name="about"
             placeholder="Title"
             value={description}
-            onChange={evt => handleChange(evt, updateDescription, checkAboutInputValidity)}
+            onChange={evt => handleChange(evt, updateAbout, updateAboutInputValidity, updateAboutErrorMessage)}
             className="popup__input popup__input_role_title"
             required
             minLength="2"
