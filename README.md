@@ -22,7 +22,6 @@
   - The ability to view cards in their original aspect ratio in a popup
   - Popups can now be closed by clicking outside the content window or pressing Esc.
   - Forms are now validating using the validation API and custom UI
-  -
 
 ---
 
