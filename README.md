@@ -1,6 +1,6 @@
 # ⚛️ Around The U.S.
 
-## 🚧 This project is under construction 🚧
+## [Check out this project live!](https://mccambley.github.io/around-react)
 
 ## Overview
 
@@ -12,7 +12,17 @@
 
 ## Recent Update
 
-- ### React is the workhorse behind this iteration of **Around the U.S.**. Recent refactoring incorporates Reacts component structure and declarative logic to being to create a page that is easier to understand and simpler to scale.
+- ### All functionality present on the previous version has been implemented using React. This includes the following
+
+  - The ability to update Avatar and user information
+  - The ability to add a new card
+  - The ability to like and delete cards
+  - Deleting a card can only be done on cards own by the user and will only occur after the action is confirmed.
+  - Form interface now updates based on whether content is loading or loaded
+  - The ability to view cards in their original aspect ratio in a popup
+  - Popups can now be closed by clicking outside the content window or pressing Esc.
+  - Forms are now validating using the validation API and custom UI
+  -
 
 ---
 
@@ -53,11 +63,5 @@
 
 - **React**
   - React is great. More information on this later as refactoring continues.
-
-## Future Plans
-
-- ### Continue refactoring previous functionality with React
-
-## [Check out this project live!](https://mccambley.github.io/around-react)
 
 ### ⚛️ _This React project is an optimized iteration of a [previous project](https://github.com/McCambley/web_project_4)_
