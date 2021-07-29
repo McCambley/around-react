@@ -12,12 +12,6 @@ export default function PopupWithForm(props) {
     updateFormValidity(formRef.current.checkValidity());
   }
 
-  // function logEvent(e) {
-  //   console.log(e.target);
-  //   console.log(overlayRef.current);
-  //   console.log(e.target === overlayRef.current);
-  // }
-
   return (
     <>
       <div className={`popup popup_role_${props.name} ${props.isOpen && 'popup_opened'}`}>
