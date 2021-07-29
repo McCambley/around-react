@@ -34,7 +34,6 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSubm
   return (
     <>
       <PopupWithForm
-        onOverlayClick={onOverlayClick}
         onSubmit={handleSubmit}
         name="edit"
         title="Edit Profile"

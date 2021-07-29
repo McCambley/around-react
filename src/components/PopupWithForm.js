@@ -1,11 +1,8 @@
 import React from 'react';
-import { PopupClosureContext } from '../contexts/PopupClosureContext';
 
 export default function PopupWithForm(props) {
   const [isValid, updateFormValidity] = React.useState(false);
   const formRef = React.useRef();
-  const overlayRef = React.useRef();
-  const popupCloserContext = React.useContext(PopupClosureContext);
 
   React.useEffect(() => {
     updateFormValidity(formRef.current.checkValidity());
@@ -23,11 +20,7 @@ export default function PopupWithForm(props) {
 
   return (
     <>
-      <div
-        className={`popup popup_role_${props.name} ${props.isOpen && 'popup_opened'}`}
-        ref={overlayRef}
-        // onClick={e => e.target === overlayRef.current && props.onClose()}
-        onClick={popupCloserContext.closeOnOverlay}>
+      <div className={`popup popup_role_${props.name} ${props.isOpen && 'popup_opened'}`}>
         <div className="popup__container">
           <form
             noValidate
