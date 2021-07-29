@@ -138,6 +138,21 @@ function App() {
     updateSelectedCard(null);
   }
 
+  function closeOnEscape(e) {
+    if (e.key === 'Escape') {
+      closeAllPopups();
+      console.log('nicencienice');
+    } else {
+      console.log('BAD', e);
+    }
+  }
+
+  // React.useEffect(() => {
+  //   console.log('here');
+  //   window.addEventListener('keydown', closeOnEscape);
+  //   return window.removeEventListener('keydown', closeOnEscape);
+  // });
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
