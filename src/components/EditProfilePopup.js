@@ -2,7 +2,7 @@ import PopupWithForm from './PopupWithForm';
 import React from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSubmitting, checkValidity }) {
+export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSubmitting, checkValidity, onOverlayClick }) {
   const [name, updateName] = React.useState('');
   const [description, updateAbout] = React.useState('');
   const [isNameInputValid, updateNameInputValidity] = React.useState(true);
@@ -34,6 +34,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSubm
   return (
     <>
       <PopupWithForm
+        onOverlayClick={onOverlayClick}
         onSubmit={handleSubmit}
         name="edit"
         title="Edit Profile"

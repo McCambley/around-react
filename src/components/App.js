@@ -8,6 +8,7 @@ import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';
 import DeletePlacePopup from './DeletePlacePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { PopupClosureContext } from '../contexts/PopupClosureContext';
 import api from '../utils/api';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
   const [isLoading, updateLoading] = React.useState(true);
   const [currentUser, updateCurrentUser] = React.useState({});
   const [cards, updateCards] = React.useState([]);
+  const [popupClosers, setPopupClosers] = React.useState({});
 
   React.useEffect(() => {
     api
@@ -39,6 +41,13 @@ function App() {
         updateLoading(false);
       })
       .catch(err => console.error(`Problem fetching user information: ${err}`));
+  }, []);
+
+  React.useEffect(() => {
+    setPopupClosers({
+      closeOnOverlay: handleCloseOnOverlay,
+      closeOnEscape: handleCloseOnEscape,
+    });
   }, []);
 
   function handleAvatarClick() {
@@ -138,7 +147,7 @@ function App() {
     updateSelectedCard(null);
   }
 
-  function closeOnEscape(e) {
+  function handleCloseOnEscape(e) {
     if (e.key === 'Escape') {
       closeAllPopups();
       console.log('nicencienice');
@@ -146,58 +155,66 @@ function App() {
       console.log('BAD', e);
     }
   }
-
+  function handleCloseOnOverlay(e) {
+    if (e.target.classList.contains('popup')) {
+      closeAllPopups();
+      console.log('Doing things');
+    }
+  }
   // React.useEffect(() => {
-  //   console.log('here');
-  //   window.addEventListener('keydown', closeOnEscape);
-  //   return window.removeEventListener('keydown', closeOnEscape);
-  // });
+  //   console.log('App is updating');
+  //   console.log(window);
+  //   // window.addEventListener('keydown', closeOnEscape);
+  //   // return window.removeEventListener('keydown', closeOnEscape);
+  // }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <div className="page">
-        <Header />
-        <Main
-          onEditAvatarClick={handleAvatarClick}
-          onEditProfileClick={handleEditProfileClick}
-          onAddPlaceClick={handleAddPlaceClick}
-          onCardClick={handleCardClick}
-          isLoading={isLoading}
-          onCardLike={handleCardLike}
-          onDeletePlaceClick={handleDeletePlaceClick}
-          cards={cards}
-        />
-        <Footer />
-        <EditProfilePopup
-          isSubmitting={isSubmitPending}
-          onUpdateUser={handleUpdateUser}
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-          checkValidity={updateInputValidity}
-        />
-        <AddPlacePopup
-          isSubmitting={isSubmitPending}
-          onAddPlace={handleAddPlaceSubmit}
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}
-          checkValidity={updateInputValidity}
-        />
-        <EditAvatarPopup
-          isSubmitting={isSubmitPending}
-          onUpdateAvatar={handleUpdateAvatar}
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-          checkValidity={updateInputValidity}
-        />
-        <DeletePlacePopup
-          isSubmitting={isSubmitPending}
-          card={cardQueuedForDeletion}
-          onDeletePlace={handleDeletePlaceSubmit}
-          isOpen={isDeletePlacePopupOpen}
-          onClose={closeAllPopups}
-        />
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-      </div>
+      <PopupClosureContext.Provider value={popupClosers}>
+        <div className="page">
+          <Header />
+          <Main
+            onEditAvatarClick={handleAvatarClick}
+            onEditProfileClick={handleEditProfileClick}
+            onAddPlaceClick={handleAddPlaceClick}
+            onCardClick={handleCardClick}
+            isLoading={isLoading}
+            onCardLike={handleCardLike}
+            onDeletePlaceClick={handleDeletePlaceClick}
+            cards={cards}
+          />
+          <Footer />
+          <EditProfilePopup
+            isSubmitting={isSubmitPending}
+            onUpdateUser={handleUpdateUser}
+            isOpen={isEditProfilePopupOpen}
+            onClose={closeAllPopups}
+            checkValidity={updateInputValidity}
+          />
+          <AddPlacePopup
+            isSubmitting={isSubmitPending}
+            onAddPlace={handleAddPlaceSubmit}
+            isOpen={isAddPlacePopupOpen}
+            onClose={closeAllPopups}
+            checkValidity={updateInputValidity}
+          />
+          <EditAvatarPopup
+            isSubmitting={isSubmitPending}
+            onUpdateAvatar={handleUpdateAvatar}
+            isOpen={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+            checkValidity={updateInputValidity}
+          />
+          <DeletePlacePopup
+            isSubmitting={isSubmitPending}
+            card={cardQueuedForDeletion}
+            onDeletePlace={handleDeletePlaceSubmit}
+            isOpen={isDeletePlacePopupOpen}
+            onClose={closeAllPopups}
+          />
+          <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+        </div>
+      </PopupClosureContext.Provider>
     </CurrentUserContext.Provider>
   );
 }
